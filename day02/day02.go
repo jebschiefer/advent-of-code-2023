@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-func SumOfPossibleGameIds(ids []int) int {
+func Sum(ids []int) int {
 	sum := 0
 
 	for _, value := range ids {
@@ -48,6 +48,25 @@ func GetPossibleGameIds(input string, bag map[string]int) []int {
 	}
 
 	return possibleGames
+}
+
+func GetPowers(input string) []int {
+	scanner := bufio.NewScanner(strings.NewReader(input))
+
+	powers := []int{}
+
+	for scanner.Scan() {
+		line := scanner.Text()
+
+		power := GetPower(line)
+		powers = append(powers, power)
+	}
+
+	if err := scanner.Err(); err != nil {
+		panic(err)
+	}
+
+	return powers
 }
 
 func GetMostSeen(line string) map[string]int {
@@ -100,4 +119,16 @@ func GetGameId(line string) int {
 	}
 
 	return id
+}
+
+func GetPower(line string) int {
+	mostSeen := GetMostSeen(line)
+
+	power := 1
+
+	for _, value := range mostSeen {
+		power *= value
+	}
+
+	return power
 }
