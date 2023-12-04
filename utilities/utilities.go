@@ -1,6 +1,9 @@
 package utilities
 
-import "strings"
+import (
+	"os"
+	"strings"
+)
 
 func GetLines(input string) []string {
 	lines := strings.Split(input, "\n")
@@ -20,4 +23,14 @@ func Sum(values []int) int {
 	}
 
 	return sum
+}
+
+func ReadFile(path string) []string {
+	content, err := os.ReadFile(path)
+
+	if err != nil {
+		panic(err)
+	}
+
+	return GetLines(string(content))
 }
