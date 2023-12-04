@@ -1,16 +1,13 @@
 package day03
 
 import (
-	"aoc2023/utilities"
 	"fmt"
 	"regexp"
 	"sort"
 	"strconv"
 )
 
-func GetPartNumbers(input string) []int {
-	lines := utilities.GetLines(input)
-
+func GetPartNumbers(lines []string) []int {
 	partNumbers := []int{}
 
 	for i, line := range lines {
@@ -73,10 +70,7 @@ func GetPartNumbers(input string) []int {
 	return partNumbers
 }
 
-// find all numbers, check adjacent, if * put in map and save location of * and value of number, multiply all values with same * location
-func GetGearRatios(input string) []int {
-	lines := utilities.GetLines(input)
-
+func GetGearRatios(lines []string) []int {
 	ratioParts := map[string][]int{}
 
 	for i, line := range lines {

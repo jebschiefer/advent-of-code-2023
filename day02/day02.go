@@ -1,10 +1,8 @@
 package day02
 
 import (
-	"bufio"
 	"regexp"
 	"strconv"
-	"strings"
 )
 
 func Sum(ids []int) int {
@@ -17,14 +15,10 @@ func Sum(ids []int) int {
 	return sum
 }
 
-func GetPossibleGameIds(input string, bag map[string]int) []int {
-	scanner := bufio.NewScanner(strings.NewReader(input))
-
+func GetPossibleGameIds(lines []string, bag map[string]int) []int {
 	possibleGames := []int{}
 
-	for scanner.Scan() {
-		line := scanner.Text()
-
+	for _, line := range lines {
 		gameId := GetGameId(line)
 		mostSeen := GetMostSeen(line)
 
@@ -43,27 +37,15 @@ func GetPossibleGameIds(input string, bag map[string]int) []int {
 		}
 	}
 
-	if err := scanner.Err(); err != nil {
-		panic(err)
-	}
-
 	return possibleGames
 }
 
-func GetPowers(input string) []int {
-	scanner := bufio.NewScanner(strings.NewReader(input))
-
+func GetPowers(lines []string) []int {
 	powers := []int{}
 
-	for scanner.Scan() {
-		line := scanner.Text()
-
+	for _, line := range lines {
 		power := GetPower(line)
 		powers = append(powers, power)
-	}
-
-	if err := scanner.Err(); err != nil {
-		panic(err)
 	}
 
 	return powers

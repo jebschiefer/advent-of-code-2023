@@ -1,10 +1,8 @@
 package day01
 
 import (
-	"bufio"
 	"regexp"
 	"strconv"
-	"strings"
 )
 
 func GetCalibrationNumber(line string) int {
@@ -28,15 +26,11 @@ func GetCalibrationNumber(line string) int {
 	return 0
 }
 
-func GetCalibrationValues(lines string, convertWords bool) []int {
+func GetCalibrationValues(lines []string, convertWords bool) []int {
 	values := []int{}
-	scanner := bufio.NewScanner(strings.NewReader(lines))
 
-	for scanner.Scan() {
-		original := scanner.Text()
-		line := scanner.Text()
-
-		if convertWords && original != "" {
+	for _, line := range lines {
+		if convertWords {
 			line = ConvertWordsToInts(line)
 		}
 
@@ -44,14 +38,10 @@ func GetCalibrationValues(lines string, convertWords bool) []int {
 		values = append(values, calibrationValue)
 	}
 
-	if err := scanner.Err(); err != nil {
-		panic(err)
-	}
-
 	return values
 }
 
-func SumCalibrationValues(lines string, convertWords bool) int {
+func SumCalibrationValues(lines []string, convertWords bool) int {
 	values := GetCalibrationValues(lines, convertWords)
 
 	sum := 0
