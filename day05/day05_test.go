@@ -12,15 +12,19 @@ func CompareInts(t *testing.T, got int, want int) {
 	}
 }
 
+func DeepCompare(t *testing.T, got []int, want []int) {
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("got %v, wanted %v", got, want)
+	}
+}
+
 func TestGetSeeds(t *testing.T) {
 	input := utilities.ReadFile("./samples/example.txt")
 
 	got := GetSeeds(input)
 	want := []int{79, 14, 55, 13}
 
-	if !reflect.DeepEqual(got, want) {
-		t.Errorf("got %v, wanted %v", got, want)
-	}
+	DeepCompare(t, got, want)
 }
 
 func TestGetMapValue(t *testing.T) {
@@ -92,10 +96,21 @@ func TestGetMaps(t *testing.T) {
 	}
 }
 
+func TestExpandSeedRange(t *testing.T) {
+	input := "seeds: 10 5 30 3"
+
+	seeds := GetSeeds(input)
+
+	got := ExpandSeedRange(seeds)
+	want := []int{10, 11, 12, 13, 14, 30, 31, 32}
+
+	DeepCompare(t, got, want)
+}
+
 func TestExamplePart1(t *testing.T) {
 	input := utilities.ReadFile("./samples/example.txt")
 
-	locations := GetSeedLocations(input)
+	locations := GetSeedLocations(input, false)
 
 	got := Min(locations)
 	want := 35
@@ -106,10 +121,33 @@ func TestExamplePart1(t *testing.T) {
 func TestPart1(t *testing.T) {
 	input := utilities.ReadFile("./samples/input.txt")
 
-	locations := GetSeedLocations(input)
+	locations := GetSeedLocations(input, false)
 
 	got := Min(locations)
 	want := 278755257
+
+	CompareInts(t, got, want)
+}
+
+func TestExamplePart2(t *testing.T) {
+	input := utilities.ReadFile("./samples/example.txt")
+
+	locations := GetSeedLocations(input, true)
+
+	got := Min(locations)
+	want := 46
+
+	CompareInts(t, got, want)
+}
+
+func TestPart2(t *testing.T) {
+	input := utilities.ReadFile("./samples/input.txt")
+
+	// Naive approach takes roughly 5 minutes
+	locations := GetSeedLocations(input, true)
+
+	got := Min(locations)
+	want := 26829166
 
 	CompareInts(t, got, want)
 }

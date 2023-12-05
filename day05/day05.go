@@ -4,6 +4,7 @@ import (
 	"aoc2023/utilities"
 	"regexp"
 	"strings"
+	"sync"
 )
 
 func GetSeeds(input string) []int {
@@ -24,6 +25,11 @@ type Mapping struct {
 	source      int
 	destination int
 	length      int
+}
+
+type SeedLocations struct {
+	mutext sync.Mutex
+	data   []int
 }
 
 func GetMaps(input string) [][]Mapping {
@@ -87,11 +93,15 @@ func GetSeedLocation(maps [][]Mapping, seed int) int {
 	return destination
 }
 
-func GetSeedLocations(input string) []int {
+func GetSeedLocations(input string, expandSeedRange bool) []int {
 	locations := []int{}
 
 	seeds := GetSeeds(input)
 	maps := GetMaps(input)
+
+	if expandSeedRange {
+		seeds = ExpandSeedRange(seeds)
+	}
 
 	for _, seed := range seeds {
 		location := GetSeedLocation(maps, seed)
@@ -99,6 +109,51 @@ func GetSeedLocations(input string) []int {
 	}
 
 	return locations
+}
+
+// TODO: This doesn't seem correct. Still takes a long time.
+func GetSeedLocationsParallel(input string, expandSeedRange bool) []int {
+	locations := SeedLocations{}
+
+	seeds := GetSeeds(input)
+	maps := GetMaps(input)
+
+	if expandSeedRange {
+		seeds = ExpandSeedRange(seeds)
+	}
+
+	waitGroup := &sync.WaitGroup{}
+	waitGroup.Add(len(seeds))
+
+	for _, seed := range seeds {
+		go func(seed int) {
+			defer waitGroup.Done()
+			location := GetSeedLocation(maps, seed)
+
+			locations.mutext.Lock()
+			locations.data = append(locations.data, location)
+			locations.mutext.Unlock()
+		}(seed)
+	}
+
+	waitGroup.Wait()
+
+	return locations.data
+}
+
+func ExpandSeedRange(seeds []int) []int {
+	expanded := []int{}
+
+	for i := 0; i < len(seeds)-1; i += 2 {
+		seed := seeds[i]
+		seedRange := seeds[i+1]
+
+		for j := 0; j < seedRange; j++ {
+			expanded = append(expanded, seed+j)
+		}
+	}
+
+	return expanded
 }
 
 func Min(values []int) int {
