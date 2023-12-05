@@ -42,3 +42,25 @@ func TestPart1(t *testing.T) {
 		t.Errorf("got %d, wanted %d", got, want)
 	}
 }
+
+func TestExamplePart2(t *testing.T) {
+	lines := utilities.ReadFile("./samples/example.txt")
+
+	got := CountInstancesOfCards(lines)
+	want := 30
+
+	if got != want {
+		t.Errorf("got %d, wanted %d", got, want)
+	}
+}
+
+func TestPart2(t *testing.T) {
+	lines := utilities.ReadFile("./samples/input.txt")
+
+	got := CountInstancesOfCards(lines)
+	want := 10425665
+
+	if got != want {
+		t.Errorf("got %d, wanted %d", got, want)
+	}
+}
