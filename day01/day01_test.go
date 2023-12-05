@@ -150,7 +150,7 @@ func TestGetCalibrationNumberConvertWordsDigitWord(t *testing.T) {
 }
 
 func TestSumCalibrationValuesPart1Example(t *testing.T) {
-	lines := utilities.ReadFile("./samples/example.txt")
+	lines := utilities.ReadFileToLines("./samples/example.txt")
 
 	got := SumCalibrationValues(lines, false)
 	want := 142
@@ -161,7 +161,7 @@ func TestSumCalibrationValuesPart1Example(t *testing.T) {
 }
 
 func TestSumCalibrationValuesPart1(t *testing.T) {
-	lines := utilities.ReadFile("./samples/input.txt")
+	lines := utilities.ReadFileToLines("./samples/input.txt")
 
 	got := SumCalibrationValues(lines, false)
 	want := 55834
@@ -172,7 +172,7 @@ func TestSumCalibrationValuesPart1(t *testing.T) {
 }
 
 func TestSumCalibrationValuesPart2Example(t *testing.T) {
-	lines := utilities.ReadFile("./samples/example2.txt")
+	lines := utilities.ReadFileToLines("./samples/example2.txt")
 
 	got := SumCalibrationValues(lines, true)
 	want := 281
@@ -183,7 +183,7 @@ func TestSumCalibrationValuesPart2Example(t *testing.T) {
 }
 
 func TestSumCalibrationValuesPart2(t *testing.T) {
-	lines := utilities.ReadFile("./samples/input.txt")
+	lines := utilities.ReadFileToLines("./samples/input.txt")
 
 	got := SumCalibrationValues(lines, true)
 	want := 53221

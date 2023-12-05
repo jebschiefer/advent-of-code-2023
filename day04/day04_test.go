@@ -7,7 +7,7 @@ import (
 )
 
 func TestGetPointsPerCardExample(t *testing.T) {
-	lines := utilities.ReadFile("./samples/example.txt")
+	lines := utilities.ReadFileToLines("./samples/example.txt")
 
 	got := GetPointsPerCard(lines)
 	want := []int{8, 2, 2, 1, 0, 0}
@@ -18,7 +18,7 @@ func TestGetPointsPerCardExample(t *testing.T) {
 }
 
 func TestExamplePart1(t *testing.T) {
-	lines := utilities.ReadFile("./samples/example.txt")
+	lines := utilities.ReadFileToLines("./samples/example.txt")
 
 	points := GetPointsPerCard(lines)
 
@@ -31,7 +31,7 @@ func TestExamplePart1(t *testing.T) {
 }
 
 func TestPart1(t *testing.T) {
-	lines := utilities.ReadFile("./samples/input.txt")
+	lines := utilities.ReadFileToLines("./samples/input.txt")
 
 	points := GetPointsPerCard(lines)
 
@@ -44,7 +44,7 @@ func TestPart1(t *testing.T) {
 }
 
 func TestExamplePart2(t *testing.T) {
-	lines := utilities.ReadFile("./samples/example.txt")
+	lines := utilities.ReadFileToLines("./samples/example.txt")
 
 	got := CountInstancesOfCards(lines)
 	want := 30
@@ -55,7 +55,7 @@ func TestExamplePart2(t *testing.T) {
 }
 
 func TestPart2(t *testing.T) {
-	lines := utilities.ReadFile("./samples/input.txt")
+	lines := utilities.ReadFileToLines("./samples/input.txt")
 
 	got := CountInstancesOfCards(lines)
 	want := 10425665

@@ -7,7 +7,7 @@ import (
 )
 
 func TestGetPartNumbersExample(t *testing.T) {
-	lines := utilities.ReadFile("./samples/example.txt")
+	lines := utilities.ReadFileToLines("./samples/example.txt")
 
 	got := GetPartNumbers(lines)
 	want := []int{467, 35, 633, 617, 592, 755, 664, 598}
@@ -18,7 +18,7 @@ func TestGetPartNumbersExample(t *testing.T) {
 }
 
 func TestGetSumPartNumbersExample(t *testing.T) {
-	lines := utilities.ReadFile("./samples/example.txt")
+	lines := utilities.ReadFileToLines("./samples/example.txt")
 
 	partNumbers := GetPartNumbers(lines)
 
@@ -31,7 +31,7 @@ func TestGetSumPartNumbersExample(t *testing.T) {
 }
 
 func TestGetSumPartNumbersExtraCases(t *testing.T) {
-	lines := utilities.ReadFile("./samples/case-repeating-numbers.txt")
+	lines := utilities.ReadFileToLines("./samples/case-repeating-numbers.txt")
 
 	partNumbers := GetPartNumbers(lines)
 
@@ -44,7 +44,7 @@ func TestGetSumPartNumbersExtraCases(t *testing.T) {
 }
 
 func TestGetSumPartNumbersPart1(t *testing.T) {
-	lines := utilities.ReadFile("./samples/input.txt")
+	lines := utilities.ReadFileToLines("./samples/input.txt")
 
 	partNumbers := GetPartNumbers(lines)
 
@@ -57,7 +57,7 @@ func TestGetSumPartNumbersPart1(t *testing.T) {
 }
 
 func TestGetGearRatios(t *testing.T) {
-	lines := utilities.ReadFile("./samples/example.txt")
+	lines := utilities.ReadFileToLines("./samples/example.txt")
 
 	got := GetGearRatios(lines)
 	want := []int{16345, 451490}
@@ -68,7 +68,7 @@ func TestGetGearRatios(t *testing.T) {
 }
 
 func TestGetGearRatiosSumExample(t *testing.T) {
-	lines := utilities.ReadFile("./samples/example.txt")
+	lines := utilities.ReadFileToLines("./samples/example.txt")
 
 	ratios := GetGearRatios(lines)
 
@@ -81,7 +81,7 @@ func TestGetGearRatiosSumExample(t *testing.T) {
 }
 
 func TestGetGearRatiosSumPart2(t *testing.T) {
-	lines := utilities.ReadFile("./samples/input.txt")
+	lines := utilities.ReadFileToLines("./samples/input.txt")
 
 	ratios := GetGearRatios(lines)
 

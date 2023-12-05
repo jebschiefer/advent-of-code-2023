@@ -7,7 +7,7 @@ import (
 )
 
 func TestSumOfPossibleGameIdsExample(t *testing.T) {
-	lines := utilities.ReadFile("./samples/example.txt")
+	lines := utilities.ReadFileToLines("./samples/example.txt")
 
 	bag := map[string]int{
 		"red":   12,
@@ -26,7 +26,7 @@ func TestSumOfPossibleGameIdsExample(t *testing.T) {
 }
 
 func TestGetPossibleGameIdsExample(t *testing.T) {
-	lines := utilities.ReadFile("./samples/example.txt")
+	lines := utilities.ReadFileToLines("./samples/example.txt")
 
 	bag := map[string]int{
 		"red":   12,
@@ -82,7 +82,7 @@ func TestGetGameId(t *testing.T) {
 }
 
 func TestSumOfPossibleGameIdsPart1(t *testing.T) {
-	lines := utilities.ReadFile("./samples/input.txt")
+	lines := utilities.ReadFileToLines("./samples/input.txt")
 
 	bag := map[string]int{
 		"red":   12,
@@ -112,7 +112,7 @@ func TestGetPowerExampleGame1(t *testing.T) {
 }
 
 func TestGetPowersExample(t *testing.T) {
-	lines := utilities.ReadFile("./samples/example.txt")
+	lines := utilities.ReadFileToLines("./samples/example.txt")
 
 	got := GetPowers(lines)
 	want := []int{48, 12, 1560, 630, 36}
@@ -123,7 +123,7 @@ func TestGetPowersExample(t *testing.T) {
 }
 
 func TestGetSumOfPowers(t *testing.T) {
-	lines := utilities.ReadFile("./samples/example.txt")
+	lines := utilities.ReadFileToLines("./samples/example.txt")
 
 	powers := GetPowers(lines)
 
@@ -136,7 +136,7 @@ func TestGetSumOfPowers(t *testing.T) {
 }
 
 func TestSumOfPowersPart2(t *testing.T) {
-	lines := utilities.ReadFile("./samples/input.txt")
+	lines := utilities.ReadFileToLines("./samples/input.txt")
 
 	powers := GetPowers(lines)
 

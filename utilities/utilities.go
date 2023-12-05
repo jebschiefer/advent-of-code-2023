@@ -25,12 +25,17 @@ func Sum(values []int) int {
 	return sum
 }
 
-func ReadFile(path string) []string {
+func ReadFile(path string) string {
 	content, err := os.ReadFile(path)
 
 	if err != nil {
 		panic(err)
 	}
 
-	return GetLines(string(content))
+	return string(content)
+}
+
+func ReadFileToLines(path string) []string {
+	content := ReadFile(path)
+	return GetLines(content)
 }
