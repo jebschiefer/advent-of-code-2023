@@ -8,9 +8,9 @@ import (
 )
 
 type Card struct {
-	label              string
-	winningNumbers     []int
-	winningNumberCount int
+	label                string
+	matchingNumbers      []int
+	matchingNumbersCount int
 
 	next *Card
 }
@@ -21,11 +21,11 @@ type CardList struct {
 	count int
 }
 
-func (cardList *CardList) Append(label string, winningNumbers []int) {
+func (cardList *CardList) Append(label string, matchingNumbers []int) {
 	card := &Card{
-		label:              label,
-		winningNumbers:     winningNumbers,
-		winningNumberCount: len(winningNumbers),
+		label:                label,
+		matchingNumbers:      matchingNumbers,
+		matchingNumbersCount: len(matchingNumbers),
 	}
 
 	if cardList.head == nil {
@@ -62,7 +62,7 @@ func GetPointsPerCard(lines []string) []int {
 	points := []int{}
 
 	ProcessCards(lines, func(card *Card) {
-		cardPoints := calculatePoints(card.winningNumbers)
+		cardPoints := calculatePoints(card.matchingNumbers)
 		points = append(points, cardPoints)
 	})
 
@@ -73,7 +73,7 @@ func CountInstancesOfCards(lines []string) int {
 	cards := CardList{}
 
 	ProcessCards(lines, func(card *Card) {
-		cards.Append(card.label, card.winningNumbers)
+		cards.Append(card.label, card.matchingNumbers)
 	})
 
 	currentCard := cards.head
@@ -81,11 +81,11 @@ func CountInstancesOfCards(lines []string) int {
 	for currentCard != nil {
 		cardToAdd := cards.Get(currentCard.label)
 
-		for i := 0; i < currentCard.winningNumberCount; i++ {
+		for i := 0; i < currentCard.matchingNumbersCount; i++ {
 			cardToAdd = cardToAdd.next
 
 			if cardToAdd != nil {
-				cards.Append(cardToAdd.label, cardToAdd.winningNumbers)
+				cards.Append(cardToAdd.label, cardToAdd.matchingNumbers)
 			}
 		}
 
@@ -97,7 +97,7 @@ func CountInstancesOfCards(lines []string) int {
 
 func ProcessCards(lines []string, handleCard func(card *Card)) {
 	for _, line := range lines {
-		ourWinningNumbers := []int{}
+		matchingNumbers := []int{}
 
 		cardLabel := getCardLabel(line)
 		cardNumberPattern := regexp.MustCompile(`^Card\s+\d+:`)
@@ -112,14 +112,14 @@ func ProcessCards(lines []string, handleCard func(card *Card)) {
 		winningNumbers := sliceToMap(winningNumbersList)
 
 		for _, ourNumber := range ourNumbersList {
-			if winningNumber, ok := winningNumbers[ourNumber]; ok {
-				ourWinningNumbers = append(ourWinningNumbers, winningNumber)
+			if matchingNumber, ok := winningNumbers[ourNumber]; ok {
+				matchingNumbers = append(matchingNumbers, matchingNumber)
 			}
 		}
 
 		card := &Card{
-			label:          cardLabel,
-			winningNumbers: ourWinningNumbers,
+			label:           cardLabel,
+			matchingNumbers: matchingNumbers,
 		}
 
 		handleCard(card)
