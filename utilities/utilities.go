@@ -2,6 +2,7 @@ package utilities
 
 import (
 	"os"
+	"strconv"
 	"strings"
 )
 
@@ -38,4 +39,19 @@ func ReadFile(path string) string {
 func ReadFileToLines(path string) []string {
 	content := ReadFile(path)
 	return GetLines(content)
+}
+
+func StringToInts(value string) []int {
+	numbers := []int{}
+	values := strings.Split(value, " ")
+
+	for _, num := range values {
+		number, err := strconv.Atoi(num)
+
+		if err == nil {
+			numbers = append(numbers, number)
+		}
+	}
+
+	return numbers
 }
