@@ -16,8 +16,9 @@ type Card struct {
 }
 
 type CardList struct {
-	head *Card
-	tail *Card
+	head  *Card
+	tail  *Card
+	count int
 }
 
 func (cardList *CardList) Append(label string, winningNumbers []int) {
@@ -29,9 +30,11 @@ func (cardList *CardList) Append(label string, winningNumbers []int) {
 
 	if cardList.head == nil {
 		cardList.head = card
+		cardList.count = 1
 	} else {
 		current := cardList.tail
 		current.next = card
+		cardList.count++
 	}
 
 	cardList.tail = card
@@ -53,19 +56,6 @@ func (cardList *CardList) Get(label string) *Card {
 	}
 
 	return nil
-}
-
-func (cardList *CardList) Count() int {
-	count := 0
-
-	current := cardList.head
-
-	for current != nil {
-		count++
-		current = current.next
-	}
-
-	return count
 }
 
 func GetPointsPerCard(lines []string) []int {
@@ -102,9 +92,7 @@ func CountInstancesOfCards(lines []string) int {
 		currentCard = currentCard.next
 	}
 
-	count := cards.Count()
-
-	return count
+	return cards.count
 }
 
 func ProcessCards(lines []string, handleCard func(card *Card)) {
