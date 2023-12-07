@@ -36,7 +36,7 @@ func NumberOfWaysToWin(winningHoldtimes []int) int {
 	return len(winningHoldtimes)
 }
 
-func ParseRecords(lines []string) []Record {
+func ParseRecords(lines []string, digitSeparator string) []Record {
 	records := []Record{}
 
 	timeLine := strings.Replace(lines[0], "Time:", "", -1)
@@ -47,8 +47,8 @@ func ParseRecords(lines []string) []Record {
 	timeParts := numberPattern.FindAllString(timeLine, -1)
 	distanceParts := numberPattern.FindAllString(distanceLine, -1)
 
-	times := utilities.StringToInts(strings.Join(timeParts, " "))
-	distances := utilities.StringToInts(strings.Join(distanceParts, " "))
+	times := utilities.StringToInts(strings.Join(timeParts, digitSeparator))
+	distances := utilities.StringToInts(strings.Join(distanceParts, digitSeparator))
 
 	for i, time := range times {
 		record := Record{

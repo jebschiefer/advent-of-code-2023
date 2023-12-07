@@ -64,7 +64,7 @@ func TestNumberOfWaysToWin(t *testing.T) {
 
 func TestPart1Example(t *testing.T) {
 	lines := utilities.ReadFileToLines("./samples/example.txt")
-	records := ParseRecords(lines)
+	records := ParseRecords(lines, " ")
 
 	got := TotalWaysToWin(records)
 	want := 288
@@ -74,10 +74,30 @@ func TestPart1Example(t *testing.T) {
 
 func TestPart1(t *testing.T) {
 	lines := utilities.ReadFileToLines("./samples/input.txt")
-	records := ParseRecords(lines)
+	records := ParseRecords(lines, " ")
 
 	got := TotalWaysToWin(records)
 	want := 1731600
+
+	utilities.CompareInts(t, got, want)
+}
+
+func TestPart2Example(t *testing.T) {
+	lines := utilities.ReadFileToLines("./samples/example.txt")
+	records := ParseRecords(lines, "")
+
+	got := TotalWaysToWin(records)
+	want := 71503
+
+	utilities.CompareInts(t, got, want)
+}
+
+func TestPart2(t *testing.T) {
+	lines := utilities.ReadFileToLines("./samples/input.txt")
+	records := ParseRecords(lines, "")
+
+	got := TotalWaysToWin(records)
+	want := 40087680
 
 	utilities.CompareInts(t, got, want)
 }
