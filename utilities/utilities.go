@@ -2,8 +2,10 @@ package utilities
 
 import (
 	"os"
+	"reflect"
 	"strconv"
 	"strings"
+	"testing"
 )
 
 func GetLines(input string) []string {
@@ -54,4 +56,16 @@ func StringToInts(value string) []int {
 	}
 
 	return numbers
+}
+
+func CompareInts(t *testing.T, got int, want int) {
+	if got != want {
+		t.Errorf("got %d, want %d", got, want)
+	}
+}
+
+func DeepCompare(t *testing.T, got []int, want []int) {
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("got %v, wanted %v", got, want)
+	}
 }
