@@ -64,6 +64,12 @@ func CompareInts(t *testing.T, got int, want int) {
 	}
 }
 
+func CompareStrings(t *testing.T, got string, want string) {
+	if got != want {
+		t.Errorf("got %s, want %s", got, want)
+	}
+}
+
 func DeepCompare(t *testing.T, got []int, want []int) {
 	if !reflect.DeepEqual(got, want) {
 		t.Errorf("got %v, wanted %v", got, want)

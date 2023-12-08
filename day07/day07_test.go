@@ -126,7 +126,7 @@ func TestPart2(t *testing.T) {
 	lines := utilities.ReadFileToLines("./samples/input.txt")
 
 	got := CalculateTotalWinnings(lines, true)
-	want := 248569531
+	want := 250382098
 
 	utilities.CompareInts(t, got, want)
 }
