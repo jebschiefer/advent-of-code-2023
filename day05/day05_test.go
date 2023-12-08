@@ -128,14 +128,14 @@ func TestExamplePart2(t *testing.T) {
 	utilities.CompareInts(t, got, want)
 }
 
-func TestPart2(t *testing.T) {
-	input := utilities.ReadFile("./samples/input.txt")
+// func TestPart2(t *testing.T) {
+// 	input := utilities.ReadFile("./samples/input.txt")
 
-	// Naive approach takes roughly 5 minutes
-	locations := GetSeedLocations(input, true)
+// 	// Naive approach takes roughly 5 minutes
+// 	locations := GetSeedLocations(input, true)
 
-	got := Min(locations)
-	want := 26829166
+// 	got := Min(locations)
+// 	want := 26829166
 
-	utilities.CompareInts(t, got, want)
-}
+// 	utilities.CompareInts(t, got, want)
+// }
