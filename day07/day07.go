@@ -24,7 +24,7 @@ const (
 	FiveOfAKind
 )
 
-func CalculateTotalWinnings(lines []string) int {
+func CalculateTotalWinnings(lines []string, joker bool) int {
 	winnings := 0
 	maxRank := len(lines)
 
@@ -34,7 +34,7 @@ func CalculateTotalWinnings(lines []string) int {
 		parts := strings.Split(line, " ")
 
 		hand := parts[0]
-		handType := GetHandType(hand)
+		handType := GetHandType(hand, joker)
 
 		bid, err := strconv.Atoi(parts[1])
 
@@ -58,8 +58,8 @@ func CalculateTotalWinnings(lines []string) int {
 		}
 
 		for i := range a.hand {
-			aCard := GetCardValue(a.hand[i])
-			bCard := GetCardValue(b.hand[i])
+			aCard := GetCardValue(a.hand[i], joker)
+			bCard := GetCardValue(b.hand[i], joker)
 
 			if aCard < bCard {
 				return 1
@@ -80,7 +80,7 @@ func CalculateTotalWinnings(lines []string) int {
 	return winnings
 }
 
-func GetHandType(hand string) HandType {
+func GetHandType(hand string, joker bool) HandType {
 	counts := map[string]int{}
 	cards := strings.Split(hand, "")
 
@@ -103,12 +103,21 @@ func GetHandType(hand string) HandType {
 
 	highest := countList[0]
 	secondHighest := 0
+	jokerCount := counts["J"]
 
 	if len(countList) > 1 {
 		secondHighest = countList[1]
+
+		if joker {
+			if jokerCount == highest && secondHighest <= jokerCount {
+				highest = jokerCount + secondHighest
+			} else {
+				highest += jokerCount
+			}
+		}
 	}
 
-	if highest == 5 {
+	if highest >= 5 {
 		return FiveOfAKind
 	} else if highest == 4 {
 		return FourOfAKind
@@ -125,7 +134,7 @@ func GetHandType(hand string) HandType {
 	return HighCard
 }
 
-func GetCardValue(card byte) int {
+func GetCardValue(card byte, joker bool) int {
 	switch card {
 	case 'A':
 		return 14
@@ -134,6 +143,9 @@ func GetCardValue(card byte) int {
 	case 'Q':
 		return 12
 	case 'J':
+		if joker {
+			return 1
+		}
 		return 11
 	case 'T':
 		return 10
