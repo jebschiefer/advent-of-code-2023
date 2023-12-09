@@ -1,12 +1,21 @@
 package day09
 
-import "aoc2023/utilities"
+import (
+	"aoc2023/utilities"
+	"slices"
+)
 
-func GetPredictions(lines []string) []int {
+func GetPredictions(lines []string, reverse bool) []int {
 	predictions := []int{}
 
 	for _, line := range lines {
-		prediction := GetPrediction(utilities.StringToInts(line))
+		numbers := utilities.StringToInts(line)
+
+		if reverse {
+			slices.Reverse(numbers)
+		}
+
+		prediction := GetPrediction(numbers)
 		predictions = append(predictions, prediction)
 	}
 
