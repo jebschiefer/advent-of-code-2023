@@ -38,7 +38,7 @@ func TestPart2(t *testing.T) {
 	predictions := GetPredictions(lines, true)
 
 	got := utilities.Sum(predictions)
-	want := 5
+	want := 1050
 
 	utilities.CompareInts(t, got, want)
 }
