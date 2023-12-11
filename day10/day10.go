@@ -1,6 +1,10 @@
 package day10
 
-import "fmt"
+import (
+	"fmt"
+	"regexp"
+	"strings"
+)
 
 type Direction struct {
 	value             string
@@ -27,7 +31,7 @@ var LEFT = Direction{
 	nextPossibleTiles: []string{"-", "L", "F"},
 }
 
-func CountSteps(startSymbol string, grid [][]string) int {
+func CountSteps(startSymbol string, grid [][]string) (int, map[string]string) {
 	steps := 0
 
 	x, y := FindStart(startSymbol, grid)
@@ -40,7 +44,7 @@ func CountSteps(startSymbol string, grid [][]string) int {
 
 	for !end {
 		currentTile := grid[y][x]
-		key := fmt.Sprintf("%d,%d", x, y)
+		key := GetKey(x, y)
 		visted[key] = currentTile
 
 		if y > 0 && isAllowed(UP, x, y-1, grid, visted, currentTile, startSymbol) {
@@ -61,7 +65,7 @@ func CountSteps(startSymbol string, grid [][]string) int {
 		end = grid[y][x] == startSymbol
 	}
 
-	return steps
+	return steps, visted
 }
 
 func FindStart(startSymbol string, grid [][]string) (x int, y int) {
@@ -77,7 +81,7 @@ func FindStart(startSymbol string, grid [][]string) (x int, y int) {
 }
 
 func isAllowed(direction Direction, x int, y int, grid [][]string, visited map[string]string, currentSymbol string, startSymbol string) bool {
-	key := fmt.Sprintf("%d,%d", x, y)
+	key := GetKey(x, y)
 
 	if value, ok := visited[key]; ok && value != startSymbol {
 		// Already visited
@@ -130,4 +134,71 @@ func IsPossibleDirection(symbol string, direction Direction) bool {
 	}
 
 	return couldMove
+}
+
+func GetKey(x int, y int) string {
+	return fmt.Sprintf("%d,%d", x, y)
+}
+
+// https://en.wikipedia.org/wiki/Point_in_polygon
+func CalculateContained(grid [][]string) int {
+	_, visited := CountSteps("S", grid)
+
+	gridWithLoop := [][]string{}
+
+	for y, row := range grid {
+		rowString := ""
+
+		for x := range row {
+			character := "."
+			key := GetKey(x, y)
+
+			if _, ok := visited[key]; ok {
+				character = "X"
+			}
+
+			rowString += character
+		}
+
+		re := regexp.MustCompile(`(XX+)`)
+		matches := re.FindAllStringSubmatch(rowString, -1)
+
+		for _, match := range matches {
+			replacement := ""
+			for i := 0; i < len(match[1]); i++ {
+				replacement += "-"
+			}
+			reMatch := regexp.MustCompile(match[1])
+			rowString = reMatch.ReplaceAllString(rowString, replacement)
+		}
+
+		visitedRow := strings.Split(rowString, "")
+		gridWithLoop = append(gridWithLoop, visitedRow)
+	}
+
+	containedCount := 0
+
+	for y, row := range gridWithLoop {
+		for x := range row {
+			key := GetKey(x, y)
+
+			// Make sure point is not an edge boundry.
+			if _, ok := visited[key]; !ok {
+				edgeCount := 0
+
+				for i := x; i < len(row); i++ {
+					if row[i] == "X" {
+						edgeCount++
+					}
+				}
+
+				// Point in polygon - odd number of borders is inside, even is outside.
+				if edgeCount%2 != 0 {
+					containedCount++
+				}
+			}
+		}
+	}
+
+	return containedCount
 }

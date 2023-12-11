@@ -8,7 +8,7 @@ import (
 func TestCountSteps(t *testing.T) {
 	input := utilities.ReadFileToGrid("./samples/example.txt")
 
-	got := CountSteps("S", input)
+	got, _ := CountSteps("S", input)
 	want := 8
 
 	utilities.CompareInts(t, got, want)
@@ -16,14 +16,14 @@ func TestCountSteps(t *testing.T) {
 
 func TestExamplePart1(t *testing.T) {
 	input := utilities.ReadFileToGrid("./samples/example.txt")
-	steps := CountSteps("S", input)
+	steps, _ := CountSteps("S", input)
 
 	got := steps / 2
 	want := 4
 	utilities.CompareInts(t, got, want)
 
 	input = utilities.ReadFileToGrid("./samples/example2.txt")
-	steps = CountSteps("S", input)
+	steps, _ = CountSteps("S", input)
 
 	got = steps / 2
 	want = 8
@@ -32,9 +32,30 @@ func TestExamplePart1(t *testing.T) {
 
 func TestPart1(t *testing.T) {
 	input := utilities.ReadFileToGrid("./samples/input.txt")
-	steps := CountSteps("S", input)
+	steps, _ := CountSteps("S", input)
 
 	got := steps / 2
 	want := 6682
+	utilities.CompareInts(t, got, want)
+}
+
+func TestExamplePart2(t *testing.T) {
+	input := utilities.ReadFileToGrid("./samples/example3.txt")
+	got := CalculateContained(input)
+	want := 4
+	utilities.CompareInts(t, got, want)
+
+	input = utilities.ReadFileToGrid("./samples/example4.txt")
+	got = CalculateContained(input)
+	want = 8
+	utilities.CompareInts(t, got, want)
+}
+
+func TestPart2(t *testing.T) {
+	input := utilities.ReadFileToGrid("./samples/input.txt")
+
+	got := CalculateContained(input)
+	want := 1
+
 	utilities.CompareInts(t, got, want)
 }

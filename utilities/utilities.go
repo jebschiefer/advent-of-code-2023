@@ -43,6 +43,23 @@ func ReadFileToLines(path string) []string {
 	return GetLines(content)
 }
 
+func ReadFileToGrid(path string) [][]string {
+	grid := [][]string{}
+	lines := ReadFileToLines(path)
+
+	for _, line := range lines {
+		row := []string{}
+
+		for _, char := range line {
+			row = append(row, string(char))
+		}
+
+		grid = append(grid, row)
+	}
+
+	return grid
+}
+
 func StringToInts(value string) []int {
 	numbers := []int{}
 	values := strings.Split(value, " ")
@@ -61,6 +78,12 @@ func StringToInts(value string) []int {
 func CompareInts(t *testing.T, got int, want int) {
 	if got != want {
 		t.Errorf("got %d, want %d", got, want)
+	}
+}
+
+func CompareBools(t *testing.T, got bool, want bool) {
+	if got != want {
+		t.Errorf("got %t, want %t", got, want)
 	}
 }
 
