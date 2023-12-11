@@ -98,3 +98,11 @@ func DeepCompare(t *testing.T, got []int, want []int) {
 		t.Errorf("got %v, wanted %v", got, want)
 	}
 }
+
+func AbsoluteValue(x int) int {
+	if x < 0 {
+		return 0 - x
+	}
+
+	return x
+}
