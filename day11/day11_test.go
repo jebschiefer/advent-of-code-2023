@@ -5,19 +5,10 @@ import (
 	"testing"
 )
 
-func TestExpandUniverse(t *testing.T) {
-	input := utilities.ReadFileToGrid("./samples/example.txt")
-
-	got := expandUniverse(input)
-	want := Universe(utilities.ReadFileToGrid("./samples/example-expanded.txt"))
-
-	utilities.CompareStrings(t, "\n"+got.stringify(), "\n"+want.stringify())
-}
-
 func TestExample1(t *testing.T) {
 	input := utilities.ReadFileToGrid("./samples/example.txt")
 
-	got := sumOfShortestDistancesBetweenGalaxies(input)
+	got := sumOfShortestDistancesBetweenGalaxies(input, 2)
 	want := 374
 
 	utilities.CompareInts(t, got, want)
@@ -26,8 +17,35 @@ func TestExample1(t *testing.T) {
 func TestPart1(t *testing.T) {
 	input := utilities.ReadFileToGrid("./samples/input.txt")
 
-	got := sumOfShortestDistancesBetweenGalaxies(input)
+	got := sumOfShortestDistancesBetweenGalaxies(input, 2)
 	want := 9591768
+
+	utilities.CompareInts(t, got, want)
+}
+
+func TestExample2Scale10(t *testing.T) {
+	input := utilities.ReadFileToGrid("./samples/example.txt")
+
+	got := sumOfShortestDistancesBetweenGalaxies(input, 10)
+	want := 1030
+
+	utilities.CompareInts(t, got, want)
+}
+
+func TestExample2Scale100(t *testing.T) {
+	input := utilities.ReadFileToGrid("./samples/example.txt")
+
+	got := sumOfShortestDistancesBetweenGalaxies(input, 100)
+	want := 8410
+
+	utilities.CompareInts(t, got, want)
+}
+
+func TestPart2(t *testing.T) {
+	input := utilities.ReadFileToGrid("./samples/input.txt")
+
+	got := sumOfShortestDistancesBetweenGalaxies(input, 1000000)
+	want := 746962097860
 
 	utilities.CompareInts(t, got, want)
 }

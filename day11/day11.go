@@ -2,7 +2,6 @@ package day11
 
 import (
 	"aoc2023/utilities"
-	"slices"
 	"strings"
 )
 
@@ -13,55 +12,40 @@ type Galaxy struct {
 	y int
 }
 
-func (universe Universe) stringify() string {
-	universeString := ""
+func expandUniverse(universe Universe, scaleFactor int) []Galaxy {
+	scaledGalaxies := getGalaxies(universe)
 
-	for _, row := range universe {
-		universeString += strings.Join(row, "") + "\n"
-	}
+	scaledGalaxies = expandVertically(universe, scaledGalaxies, scaleFactor)
+	scaledGalaxies = expandHorizontally(universe, scaledGalaxies, scaleFactor)
 
-	return universeString
+	return scaledGalaxies
 }
 
-func expandUniverse(universe Universe) Universe {
-	universe = expandVertically(universe)
-	universe = expandHorizontally(universe)
-	return universe
-}
-
-func expandVertically(universe Universe) Universe {
-	expanded := Universe{}
-
+func expandVertically(universe Universe, scaledGalaxies []Galaxy, scaleFactor int) []Galaxy {
+	galaxies := getGalaxies(universe)
 	emptyRow := strings.Repeat(".", len(universe[0]))
 
-	for _, row := range universe {
+	for y, row := range universe {
 		rowString := strings.Join(row, "")
 
 		if rowString == emptyRow {
-			expanded = append(expanded, row)
+			for i, galaxy := range galaxies {
+				if galaxy.y > y {
+					scaledGalaxies[i].y += scaleFactor - 1
+				}
+			}
 		}
-
-		expanded = append(expanded, row)
 	}
 
-	return expanded
+	return scaledGalaxies
 }
 
-func expandHorizontally(universe Universe) Universe {
-	expanded := Universe{}
-
-	for _, row := range universe {
-		rowCopy := make([]string, len(row))
-		copy(rowCopy, row)
-		expanded = append(expanded, rowCopy)
-	}
-
+func expandHorizontally(universe Universe, scaledGalaxies []Galaxy, scaleFactor int) []Galaxy {
+	galaxies := getGalaxies(universe)
 	firstRow := universe[0]
 	yLength := len(universe)
 
 	emptyColumn := strings.Repeat(".", yLength)
-
-	offset := 0
 
 	for x := range firstRow {
 		columnString := ""
@@ -71,17 +55,15 @@ func expandHorizontally(universe Universe) Universe {
 		}
 
 		if columnString == emptyColumn {
-			// Insert new column into each row at current index.
-			for y := range expanded {
-				expanded[y] = slices.Insert(expanded[y], x+offset, ".")
+			for i, galaxy := range galaxies {
+				if galaxy.x > x {
+					scaledGalaxies[i].x += scaleFactor - 1
+				}
 			}
-
-			// Increment offset because a new column was added.
-			offset++
 		}
 	}
 
-	return expanded
+	return scaledGalaxies
 }
 
 func distanceBetweenGalaxies(a Galaxy, b Galaxy) int {
@@ -118,10 +100,9 @@ func getShortestPathsBetweenGalaxies(galaxies []Galaxy) []int {
 	return shortPathLengths
 }
 
-func sumOfShortestDistancesBetweenGalaxies(universe Universe) int {
-	universe = expandUniverse(universe)
-	galaxies := getGalaxies(universe)
-	shortestDistances := getShortestPathsBetweenGalaxies(galaxies)
+func sumOfShortestDistancesBetweenGalaxies(universe Universe, scaleFactor int) int {
+	scaledGalaxies := expandUniverse(universe, scaleFactor)
+	shortestDistances := getShortestPathsBetweenGalaxies(scaledGalaxies)
 
 	return utilities.Sum(shortestDistances)
 }
