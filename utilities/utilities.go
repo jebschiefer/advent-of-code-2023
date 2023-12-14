@@ -44,8 +44,12 @@ func ReadFileToLines(path string) []string {
 }
 
 func ReadFileToGrid(path string) [][]string {
-	grid := [][]string{}
 	lines := ReadFileToLines(path)
+	return LinesToGrid(lines)
+}
+
+func LinesToGrid(lines []string) [][]string {
+	grid := [][]string{}
 
 	for _, line := range lines {
 		row := []string{}
