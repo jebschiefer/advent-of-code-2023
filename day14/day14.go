@@ -56,15 +56,19 @@ func rotate(grid Grid, direction string) Grid {
 	rotated := Grid{}
 	yLength := len(grid)
 
+	appendColumn := func(x int) {
+		column := []string{}
+
+		for y := 0; y < yLength; y++ {
+			column = append(column, grid[y][x])
+		}
+
+		rotated = append(rotated, column)
+	}
+
 	if direction == CLOCKWISE {
 		for x := range grid[0] {
-			column := []string{}
-
-			for y := 0; y < yLength; y++ {
-				column = append(column, grid[y][x])
-			}
-
-			rotated = append(rotated, column)
+			appendColumn(x)
 		}
 	}
 
@@ -72,13 +76,7 @@ func rotate(grid Grid, direction string) Grid {
 		start := len(grid) - 1
 
 		for x := start; x >= 0; x-- {
-			column := []string{}
-
-			for y := 0; y < yLength; y++ {
-				column = append(column, grid[y][x])
-			}
-
-			rotated = append(rotated, column)
+			appendColumn(x)
 		}
 	}
 
