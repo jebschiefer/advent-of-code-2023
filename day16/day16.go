@@ -42,6 +42,10 @@ func (grid Grid) initEmpty() Grid {
 }
 
 func move(grid Grid, visitedGrid *Grid, visited map[string]int, x int, y int, direction Direction) {
+	if isLoop(visited, x, y, direction) {
+		return
+	}
+
 	nextX, nextY := x, y
 	xMin, xMax := 0, len(grid[0])-1
 	yMin, yMax := 0, len(grid)-1
@@ -57,10 +61,6 @@ func move(grid Grid, visitedGrid *Grid, visited map[string]int, x int, y int, di
 		nextY = y - 1
 
 		if nextY >= yMin {
-			if nextMoveIsLoop(visited, nextX, nextY, direction) {
-				return
-			}
-
 			nextTile := grid[nextY][nextX]
 
 			if nextTile == "/" {
@@ -78,10 +78,6 @@ func move(grid Grid, visitedGrid *Grid, visited map[string]int, x int, y int, di
 		nextY = y + 1
 
 		if nextY <= yMax {
-			if nextMoveIsLoop(visited, nextX, nextY, direction) {
-				return
-			}
-
 			nextTile := grid[nextY][nextX]
 
 			if nextTile == "/" {
@@ -99,10 +95,6 @@ func move(grid Grid, visitedGrid *Grid, visited map[string]int, x int, y int, di
 		nextX = x - 1
 
 		if nextX >= xMin {
-			if nextMoveIsLoop(visited, nextX, nextY, direction) {
-				return
-			}
-
 			nextTile := grid[nextY][nextX]
 
 			if nextTile == "/" {
@@ -120,10 +112,6 @@ func move(grid Grid, visitedGrid *Grid, visited map[string]int, x int, y int, di
 		nextX = x + 1
 
 		if nextX <= xMax {
-			if nextMoveIsLoop(visited, nextX, nextY, direction) {
-				return
-			}
-
 			nextTile := grid[nextY][nextX]
 
 			if nextTile == "/" {
@@ -144,7 +132,7 @@ func getKey(x int, y int, direction Direction) string {
 	return fmt.Sprintf("%d-%d-%d", x, y, direction)
 }
 
-func nextMoveIsLoop(visited map[string]int, nextX int, nextY int, direction Direction) bool {
+func isLoop(visited map[string]int, nextX int, nextY int, direction Direction) bool {
 	key := getKey(nextX, nextY, direction)
 	_, ok := visited[key]
 

@@ -24,7 +24,7 @@ func TestPart1(t *testing.T) {
 	move(grid, &visited, map[string]int{}, -1, 0, RIGHT)
 
 	got := countEnergized(visited)
-	want := 46
+	want := 7242
 
 	utilities.CompareInts(t, got, want)
 }
