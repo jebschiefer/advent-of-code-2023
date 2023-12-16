@@ -152,3 +152,54 @@ func countEnergized(grid Grid) int {
 
 	return count
 }
+
+func getMostEnergized(grid Grid) int {
+	max := 0
+
+	for i := 0; i < 4; i++ {
+		if i > 0 {
+			grid = rotate(grid)
+		}
+
+		for y := range grid {
+			visited := grid.initEmpty()
+			move(grid, &visited, map[string]int{}, -1, y, RIGHT)
+			energized := countEnergized(visited)
+
+			if energized > max {
+				max = energized
+			}
+		}
+	}
+
+	return max
+}
+
+func rotate(grid Grid) Grid {
+	rotated := Grid{}
+	yLength := len(grid)
+
+	for x := range grid[0] {
+		column := []string{}
+
+		for y := yLength - 1; y >= 0; y-- {
+			symbol := grid[y][x]
+
+			if symbol == "-" {
+				symbol = "|"
+			} else if symbol == "|" {
+				symbol = "-"
+			} else if symbol == "/" {
+				symbol = "\\"
+			} else if symbol == "\\" {
+				symbol = "/"
+			}
+
+			column = append(column, symbol)
+		}
+
+		rotated = append(rotated, column)
+	}
+
+	return rotated
+}

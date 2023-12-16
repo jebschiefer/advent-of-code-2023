@@ -28,3 +28,21 @@ func TestPart1(t *testing.T) {
 
 	utilities.CompareInts(t, got, want)
 }
+
+func TestExamplePart2(t *testing.T) {
+	grid := Grid(utilities.ReadFileToGrid("./samples/example.txt"))
+
+	got := getMostEnergized(grid)
+	want := 51
+
+	utilities.CompareInts(t, got, want)
+}
+
+func TestPart2(t *testing.T) {
+	grid := Grid(utilities.ReadFileToGrid("./samples/input.txt"))
+
+	got := getMostEnergized(grid)
+	want := 7572
+
+	utilities.CompareInts(t, got, want)
+}
