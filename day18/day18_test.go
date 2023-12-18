@@ -93,3 +93,25 @@ func TestPart1(t *testing.T) {
 
 	utilities.CompareInts(t, got, want)
 }
+
+func TestExamplePart1Shoelace(t *testing.T) {
+	lines := utilities.ReadFileToLines("./samples/example.txt")
+	intstructions := getInstructions(lines)
+	points := getPoints(intstructions)
+
+	got := getFillArea(points)
+	want := 62
+
+	utilities.CompareInts(t, got, want)
+}
+
+func TestPart1Shoelace(t *testing.T) {
+	lines := utilities.ReadFileToLines("./samples/input.txt")
+	intstructions := getInstructions(lines)
+	points := getPoints(intstructions)
+
+	got := getFillArea(points)
+	want := 35991
+
+	utilities.CompareInts(t, got, want)
+}

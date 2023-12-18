@@ -1,6 +1,7 @@
 package day18
 
 import (
+	"math"
 	"regexp"
 	"strconv"
 	"strings"
@@ -17,6 +18,11 @@ type Instruction struct {
 	direction string
 	steps     int
 	color     string
+}
+
+type Point struct {
+	x int
+	y int
 }
 
 func (grid Grid) stringify() string {
@@ -140,4 +146,77 @@ func area(grid Grid) int {
 	}
 
 	return area
+}
+
+func getPoints(instructions []Instruction) []Point {
+	points := []Point{}
+	x, y := 0, 0
+
+	for _, instruction := range instructions {
+		switch instruction.direction {
+		case "L":
+			stop := x - instruction.steps
+			for ; x > stop; x-- {
+				points = append(points, Point{
+					x: x,
+					y: y,
+				})
+			}
+		case "R":
+			stop := x + instruction.steps
+			for ; x < stop; x++ {
+				points = append(points, Point{
+					x: x,
+					y: y,
+				})
+			}
+		case "U":
+			stop := y - instruction.steps
+			for ; y > stop; y-- {
+				points = append(points, Point{
+					x: x,
+					y: y,
+				})
+			}
+		case "D":
+			stop := y + instruction.steps
+			for ; y < stop; y++ {
+				points = append(points, Point{
+					x: x,
+					y: y,
+				})
+			}
+		}
+	}
+
+	return points
+}
+
+func getShoelaceArea(points []Point) int {
+	n := len(points) - 1
+	area := 0
+
+	for i := 0; i < n; i++ {
+		x1 := points[i].x
+		y1 := points[i].y
+
+		x2 := points[0].x
+		y2 := points[0].y
+
+		if i != n {
+			x2 = points[i+1].x
+			y2 = points[i+1].y
+		}
+
+		area += ((x1 * y2) - (x2 * y1))
+	}
+
+	return int(math.Abs(float64(area / 2)))
+}
+
+func getFillArea(points []Point) int {
+	area := getShoelaceArea(points)
+	perimeter := len(points)/2 + 1
+
+	return area + perimeter
 }
