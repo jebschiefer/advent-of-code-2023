@@ -76,7 +76,8 @@ func TestPointInPolygon(t *testing.T) {
 
 func TestExamplePart1(t *testing.T) {
 	lines := utilities.ReadFileToLines("./samples/example.txt")
-	grid := createGrid(lines)
+	instructions := getInstructions(lines)
+	grid := createGrid(lines, instructions)
 
 	got := area(grid)
 	want := 62
@@ -86,7 +87,8 @@ func TestExamplePart1(t *testing.T) {
 
 func TestPart1(t *testing.T) {
 	lines := utilities.ReadFileToLines("./samples/input.txt")
-	grid := createGrid(lines)
+	instructions := getInstructions(lines)
+	grid := createGrid(lines, instructions)
 
 	got := area(grid)
 	want := 35991
@@ -112,6 +114,28 @@ func TestPart1Shoelace(t *testing.T) {
 
 	got := getFillArea(points)
 	want := 35991
+
+	utilities.CompareInts(t, got, want)
+}
+
+func TestExamplePart2(t *testing.T) {
+	lines := utilities.ReadFileToLines("./samples/example.txt")
+	intstructions := getInstructionsHex(lines)
+	points := getPoints(intstructions)
+
+	got := getFillArea(points)
+	want := 952408144115
+
+	utilities.CompareInts(t, got, want)
+}
+
+func TestPart2(t *testing.T) {
+	lines := utilities.ReadFileToLines("./samples/input.txt")
+	intstructions := getInstructionsHex(lines)
+	points := getPoints(intstructions)
+
+	got := getFillArea(points)
+	want := 54058824661845
 
 	utilities.CompareInts(t, got, want)
 }

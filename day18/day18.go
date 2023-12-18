@@ -7,10 +7,6 @@ import (
 	"strings"
 )
 
-// plot
-// surround with box of another shape
-// remove every dot between inner and out perimeters
-
 type Grid []Row
 type Row []string
 
@@ -73,9 +69,41 @@ func getInstructions(lines []string) []Instruction {
 	return instructions
 }
 
-func createGrid(lines []string) Grid {
+func getInstructionsHex(lines []string) []Instruction {
+	instructions := []Instruction{}
+
+	re := regexp.MustCompile(`\((.+)\)`)
+
+	for _, line := range lines {
+		matches := re.FindStringSubmatch(line)
+		color := matches[1]
+		direction := color[len(color)-1:]
+		steps, _ := strconv.ParseInt(color[1:len(color)-1], 16, 64)
+
+		switch direction {
+		case "0":
+			direction = "R"
+		case "1":
+			direction = "D"
+		case "2":
+			direction = "L"
+		case "3":
+			direction = "U"
+		}
+
+		instruction := Instruction{
+			direction: direction,
+			steps:     int(steps),
+		}
+
+		instructions = append(instructions, instruction)
+	}
+
+	return instructions
+}
+
+func createGrid(lines []string, instructions []Instruction) Grid {
 	grid := initGrid(500, 500)
-	instructions := getInstructions(lines)
 
 	x, y := 100, 200
 
@@ -215,8 +243,15 @@ func getShoelaceArea(points []Point) int {
 }
 
 func getFillArea(points []Point) int {
-	area := getShoelaceArea(points)
-	perimeter := len(points)/2 + 1
+	a := getShoelaceArea(points)
+	b := len(points)
 
-	return area + perimeter
+	// Pick's theorem, need i
+	// a = i + (b / 2) - 1
+	// a - (b / 2) = i - 1
+	// a - (b / 2) + 1 = i
+	i := a - (b / 2) + 1
+
+	// Internal + boundary points
+	return i + b
 }
