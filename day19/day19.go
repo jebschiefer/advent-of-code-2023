@@ -167,3 +167,96 @@ func sortPart(start string, workflows Workflows, ratedPart RatedPart) string {
 
 	return start
 }
+
+func getPossibleRatingsCombinations(label string, workflows Workflows, _valueRanges map[string]map[string]int, buckets map[string]int) map[string]int {
+	oldValueRanges, valueRanges := map[string]map[string]int{}, map[string]map[string]int{}
+
+	for category, valueRange := range _valueRanges {
+		oldValueRanges[category] = map[string]int{
+			"min": valueRange["min"],
+			"max": valueRange["max"],
+		}
+		valueRanges[category] = map[string]int{
+			"min": valueRange["min"],
+			"max": valueRange["max"],
+		}
+	}
+
+	subTotal := getCominationsForRange(valueRanges)
+
+	if label == "A" || label == "R" {
+		buckets[label] += subTotal
+	}
+
+	workflow := workflows[label]
+
+	for _, rule := range workflow.rules {
+		if rule.category == "default" {
+			return getPossibleRatingsCombinations(rule.destination, workflows, oldValueRanges, buckets)
+		}
+
+		currentRange := valueRanges[rule.category]
+
+		destination := ""
+
+		if rule.comparator == ">" && currentRange["max"] > rule.valueLimit {
+			currentRange["min"] = rule.valueLimit + 1
+			oldValueRanges[rule.category]["max"] = currentRange["min"]
+			destination = rule.destination
+		} else if rule.comparator == "<" && currentRange["max"] > rule.valueLimit {
+			currentRange["max"] = rule.valueLimit - 1
+			oldValueRanges[rule.category]["min"] = currentRange["max"]
+			destination = rule.destination
+		}
+
+		if destination != "" {
+			valueRanges[rule.category] = currentRange
+			getPossibleRatingsCombinations(rule.destination, workflows, valueRanges, buckets)
+		}
+	}
+
+	return buckets
+}
+
+func part2(input string) int {
+	workflows, _ := parseInput(input)
+
+	valueRanges := map[string]map[string]int{
+		"x": {
+			"min": 0,
+			"max": 4000,
+		},
+		"m": {
+			"min": 0,
+			"max": 4000,
+		},
+		"a": {
+			"min": 0,
+			"max": 4000,
+		},
+		"s": {
+			"min": 0,
+			"max": 4000,
+		},
+	}
+
+	buckets := map[string]int{
+		"A": 1,
+		"R": 1,
+	}
+
+	buckets = getPossibleRatingsCombinations("in", workflows, valueRanges, buckets)
+
+	return buckets["A"]
+}
+
+func getCominationsForRange(valueRanges map[string]map[string]int) int {
+	total := 1
+
+	for _, valueRange := range valueRanges {
+		valuesInRange := valueRange["max"] - valueRange["min"]
+		total *= valuesInRange
+	}
+
+	return total
+}

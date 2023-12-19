@@ -24,3 +24,12 @@ func TestPart1(t *testing.T) {
 
 	utilities.CompareInts(t, got, want)
 }
+
+func TestExamplePart2(t *testing.T) {
+	input := utilities.ReadFile("./samples/example.txt")
+
+	got := part2(input)
+	want := 167409079868000
+
+	utilities.CompareInts(t, got, want)
+}
